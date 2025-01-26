@@ -1,0 +1,12 @@
+[Unit]
+Description=Startup Script Service
+After=network.target
+
+[Service]
+ExecStart=/etc/startup.sh
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

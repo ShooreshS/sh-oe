@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded OS Config</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .menu-icon {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            display: flex;
+        }
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #555;
+        }
+        .sidebar a.active {
+            background-color: #007bff;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        /* Responsive Mobile Menu */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+                position: absolute;
+                z-index: 1000;
+                top: 50px;
+                left: 0;
+                width: 100%;
+            }
+            .sidebar.open {
+                display: block;
+            }
+            header .menu-icon {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Device Config</h1>
+        <span class="menu-icon" onclick="toggleMenu()">☰</span>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <a href="#home" class="active" onclick="showPage('home')">Home</a>
+            <a href="#network" onclick="showPage('network')">Network</a>
+            <a href="#firewall" onclick="showPage('firewall')">Firewall</a>
+            <a href="#container" onclick="showPage('container')">Container</a>
+            <a href="#logs" onclick="showPage('logs')">Logs</a>
+            <a href="#iot" onclick="showPage('iot')">IoT</a>
+            <a href="#cellular" onclick="showPage('cellular')">Cellular</a>
+        </div>
+        <div class="content" id="content">
+            <!-- Home Page -->
+            <section id="home" class="page active">
+                <h2>Home</h2>
+                <p><strong>Device Status:</strong> Running</p>
+                <p><strong>IP Address:</strong> 192.168.7.2</p>
+                <p><strong>Uptime:</strong> 1 hours 43 minutes</p>
+            </section>
+
+            <!-- Network Page -->
+            <section id="network" class="page">
+                <h2>Network Configuration</h2>
+                <p>Configure NICs, IP settings, and DNS here.</p>
+                <!-- Mockup Form -->
+                <form>
+                    <label>IP Address:</label><br>
+                    <input type="text" placeholder="192.168.1.2"><br><br>
+                    <label>Subnet Mask:</label><br>
+                    <input type="text" placeholder="255.255.255.0"><br><br>
+                    <label>Gateway:</label><br>
+                    <input type="text" placeholder="192.168.1.254"><br><br>
+                    <button type="button">Save</button>
+                </form>
+            </section>
+
+            <!-- Firewall Page -->
+            <section id="firewall" class="page">
+                <h2>Firewall Configuration</h2>
+                <p>Add, edit, or delete firewall rules here.</p>
+                <ul>
+                    <li>Rule 1: Allow HTTP (Port 80)</li>
+                    <li>Rule 2: Block SSH (Port 22)</li>
+                </ul>
+                <button type="button">Add Rule</button>
+            </section>
+
+            <!-- Container Page -->
+            <section id="container" class="page">
+                <h2>Container Management</h2>
+                <p>Manage Podman containers here.</p>
+                <button>Start Container</button>
+                <button>Stop Container</button>
+            </section>
+
+            <!-- Logs Page -->
+            <section id="logs" class="page">
+                <h2>System Logs</h2>
+                <p>View system logs below:</p>
+                <textarea rows="10" cols="50" readonly>Logs will appear here...</textarea>
+            </section>
+
+            <!-- IoT Page -->
+            <section id="iot" class="page">
+                <h2>IoT Agent Management</h2>
+                <p>Configure IoT server connections and manage agents.</p>
+                <form>
+                    <label>IoT Server URL:</label><br>
+                    <input type="text" placeholder="http://iot-server.local"><br><br>
+                    <label>API Key:</label><br>
+                    <input type="text" placeholder="Enter API Key"><br><br>
+                    <button type="button">Connect</button>
+                </form>
+            </section>
+
+            <!-- Cellular Page -->
+            <section id="cellular" class="page">
+                <h2>Cellular Configuration</h2>
+                <p>View and configure cellular modem details.</p>
+                <ul>
+                    <li><strong>Status:</strong> Connected</li>
+                    <li><strong>Signal Strength:</strong> -75 dBm</li>
+                    <li><strong>Operator:</strong> Example Telecom</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <script>
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function showPage(pageId) {
+            // Remove active class from links
+            const links = document.querySelectorAll('.sidebar a');
+            links.forEach(link => link.classList.remove('active'));
+
+            // Add active class to clicked link
+            const activeLink = document.querySelector(`.sidebar a[href="#${pageId}"]`);
+            if (activeLink) activeLink.classList.add('active');
+
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Show selected page
+            const page = document.getElementById(pageId);
+            if (page) page.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+

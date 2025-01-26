@@ -1,0 +1,13 @@
+[Unit]
+Description=Web UI Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 -m http.server --directory /var/www/html 8080
+WorkingDirectory=/var/www/html
+User=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
